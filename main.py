@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from schemas import SCreate, SRegister
+from schemas import SCreate, SCreateItems, SEditDescription, SRegister
 
 
 app = FastAPI()
@@ -24,3 +24,42 @@ async def api_register_auth(user_data: SRegister):
 @app.post("/auth/logout")
 async def api_logout_auth():
     return {"detail": "Вы успешно вышли"}
+
+@app.get("/items/all")
+async def api_all_items():
+    return {
+        "detail": "Список всех items",
+        "items": [
+            {"title": "Название 1", "description": "Описание 1"},
+            {"title": "Название 2", "description": "Описание 2"}
+        ]
+    }
+
+@app.get("/items/search")
+async def api_all_items():
+    return {
+        "detail": "Найденные items",
+        "items": [
+            {"title": "Название 1", "description": "Описание 1"},
+            {"title": "Название 2", "description": "Описание 2"}
+        ]
+    }
+
+@app.get("/items/current/{id}")
+async def api_current_items(id: int):
+    return {
+        "title": f"Название {id}",
+        "description": f"Описание {id}"
+    }
+
+@app.post("/items/create")
+async def api_create_items(data_items: SCreateItems):
+    return {"detail": "Items успешно добавлен"}
+
+@app.patch("/update")
+async def api_update_items(edit_data: SEditDescription):
+    return {"detail": "Items успешно изменен"}
+
+@app.delete("/delete")
+async def api_delete_items(id: int):
+    return {"detail": "Items успешно удален"}
