@@ -1,9 +1,25 @@
 from fastapi import FastAPI
 from schemas import SCreate, SCreateItems, SEditDescription, SRegister
+from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()
 
+
+origins = [
+    "http://localhost:5500",
+    "http://127.0.0.1:5500",
+    "http://127.0.0.1:5173"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "OPTIONS", "DELETE", "PATCH", "PUT"],
+    allow_headers=["Content-Type", "Set-Cookie", "Access-Control-Allow-Headers",
+                   "Access-Control-Allow-Origin", "Authorization"],
+)
 
 @app.get("/auth/me")
 async def api_detail_auth():
